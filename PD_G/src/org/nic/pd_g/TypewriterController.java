@@ -4,6 +4,7 @@ import org.nic.pd_g.util.ControllerInterface;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
 public class TypewriterController implements Runnable, ControllerInterface
@@ -11,6 +12,7 @@ public class TypewriterController implements Runnable, ControllerInterface
 	private static final int INTERVAL = 250;
 	
 	private volatile boolean isActive = false;
+	private Region theView;
 	
 	@FXML
 	private Label labelOne;
@@ -41,6 +43,16 @@ public class TypewriterController implements Runnable, ControllerInterface
 	public char[] getRunningText()		{ return runningText; }
 	public Text getTypeText()			{ return typeText; }
 	public boolean getActiveStatus()	{ return isActive; }
+	
+	@Override
+	public void setView(Region view) {
+		theView = view;
+	}
+
+	@Override
+	public Region getView() {
+		return theView;
+	}
 	
 //	public Task<Void> getTask()		{ return task; }
 	

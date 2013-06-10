@@ -7,13 +7,15 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 public class GameBoardController implements ControllerInterface
 {
 	private MainApp mainApp;
-	private volatile boolean isActive;
+	private volatile boolean isActive = false;;
 	
+	private Region theView;
 	private Canvas canvas;
 	private GraphicsContext gc;
 	
@@ -24,8 +26,19 @@ public class GameBoardController implements ControllerInterface
 		isActive = !isActive;
 	}
 	
+	public boolean getActiveStatus()	{ return isActive; }
+	
 	public GraphicsContext getGraphicsContext()	{ return gc; }
 	
+	@Override
+	public void setView(Region view) {
+		this.theView = view;	
+	}
+
+	@Override
+	public Region getView() {		
+		return theView;
+	}
 
 	public GameBoardController()
 	{	
@@ -97,6 +110,8 @@ public class GameBoardController implements ControllerInterface
 	{
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	}
+
+
 
 	
 	

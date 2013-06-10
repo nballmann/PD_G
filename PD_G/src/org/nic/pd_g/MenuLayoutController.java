@@ -3,15 +3,29 @@ package org.nic.pd_g;
 import org.nic.pd_g.util.ControllerInterface;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.Region;
 
 public class MenuLayoutController implements ControllerInterface
 {
 	private MainApp mainApp;
-	private volatile boolean isActive;
+	private Region theView;
+	private volatile boolean isActive = false;
 	
 	public void setMainApp(MainApp mainApp) 
 	{
 	      this.mainApp = mainApp;
+	}
+	
+	public boolean getActiveStatus()	{ return isActive; }
+	
+	@Override
+	public void setView(Region view) {
+		theView = view;
+	}
+
+	@Override
+	public Region getView() {
+		return theView;
 	}
 
 	@FXML
@@ -24,7 +38,6 @@ public class MenuLayoutController implements ControllerInterface
 	private void handleTypewriter()
 	{
 		mainApp.showPanel(mainApp.getTypewriterPane());
-		mainApp.getTypewriterController().changeActiveStatus();
 	}
 	
 	@FXML
@@ -36,7 +49,7 @@ public class MenuLayoutController implements ControllerInterface
 	@FXML
 	private void handleSettings()
 	{
-		
+		mainApp.showPanel(mainApp.getBrowser());
 	}
 	
 	@FXML
@@ -46,7 +59,7 @@ public class MenuLayoutController implements ControllerInterface
 	}
 
 	@Override
-	public void changeActiveStatus() {
+	public synchronized void changeActiveStatus() {
 		isActive = !isActive;
 	}
 }

@@ -15,6 +15,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 public class ChartPaneController implements ControllerInterface
@@ -23,13 +24,26 @@ public class ChartPaneController implements ControllerInterface
 	private MainApp mainApp;
 	
 	private volatile boolean isActive = false;
-
+	private Region theView;
+	
 	private ObservableList<LineChart<String,Number>> lineChartList;
 	private volatile ObservableList<XYChart.Series<String,Number>> chartSeriesList;
 	
 	private static int listCount = 0;
 
 	public void setMainApp(MainApp mainApp)	{ this.mainApp = mainApp; }
+	
+	@Override
+	public void setView(Region view) {
+		theView = view;
+	}
+
+	@Override
+	public Region getView() {
+		return theView;
+	}
+	
+	public boolean getActiveStatus()	{ return isActive; }
 	
 	public synchronized void changeActiveStatus()
 	{
