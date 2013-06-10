@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="org.nic.pd_g.MenuLayoutController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <VBox id="VBox" alignment="CENTER" layoutX="250.0" layoutY="128.0" spacing="35.0">
+      <children>
+        <Button mnemonicParsing="false" onAction="#handleNewGame" prefWidth="300.0" text="New Game" />
+        <Button mnemonicParsing="false" onAction="#handleLoadGame" prefWidth="300.0" text="Load Game" />
+        <Button mnemonicParsing="false" onAction="#handleMultiplayer" prefWidth="300.0" text="Multiplayer" />
+        <Button mnemonicParsing="false" onAction="#handleSettings" prefWidth="300.0" text="Settings" />
+        <Button mnemonicParsing="false" onAction="#handleExit" prefWidth="300.0" text="Exit" />
+      </children>
+    </VBox>
+  </children>
+  <stylesheets>
+    <URL value="@Theme.css" />
+  </stylesheets>
+</AnchorPane>
