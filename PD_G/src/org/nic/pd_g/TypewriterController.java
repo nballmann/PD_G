@@ -11,7 +11,7 @@ public class TypewriterController implements Runnable, ControllerInterface
 {
 	private static final int INTERVAL = 250;
 	
-	private volatile boolean isActive = false;
+	private volatile boolean isActive;
 	private Region theView;
 	
 	@FXML
@@ -28,6 +28,7 @@ public class TypewriterController implements Runnable, ControllerInterface
 	@FXML
 	private void initialize()
 	{
+		isActive = false;
 		runningText = string.toCharArray();
 		System.out.println(runningText.length);
 		System.out.println(runningText);
@@ -45,7 +46,7 @@ public class TypewriterController implements Runnable, ControllerInterface
 	public boolean getActiveStatus()	{ return isActive; }
 	
 	@Override
-	public void setView(Region view) {
+	public void setView(final Region view) {
 		theView = view;
 	}
 
@@ -54,10 +55,7 @@ public class TypewriterController implements Runnable, ControllerInterface
 		return theView;
 	}
 	
-//	public Task<Void> getTask()		{ return task; }
-	
 	public void setMainApp(MainApp mainApp)		{ this.mainApp = mainApp; }
-	
 	
 	public synchronized void changeActiveStatus()
 	{
@@ -76,6 +74,9 @@ public class TypewriterController implements Runnable, ControllerInterface
 				Thread.sleep((long)(Math.floor(Math.random() * INTERVAL)));
 				tempString += runningText[i];
 				typeText.setText(tempString);
+				
+				if(!isActive)
+					break;
 			}
 			catch(InterruptedException e) { e.printStackTrace(); }
 			

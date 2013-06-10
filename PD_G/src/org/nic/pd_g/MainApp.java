@@ -217,10 +217,10 @@ public class MainApp extends Application
 	{
 		Browser temp = new Browser();
 
-		temp.setPrefSize(800, 600);
-		temp.setMaxSize(1920, 1024);
-		temp.setMinSize(300, 200);
-		temp.setManaged(true);
+//		temp.setPrefSize(800, 600);
+//		temp.setMaxSize(1920, 1024);
+//		temp.setMinSize(300, 200);
+//		temp.setManaged(true);
 		
 		centerPaneList.add(temp);
 		

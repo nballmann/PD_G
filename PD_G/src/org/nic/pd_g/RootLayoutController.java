@@ -28,19 +28,13 @@ public class RootLayoutController
 	
 	@FXML
 	private void handleMenu()
-	{
-		if(mainApp.getTypewriterController().getActiveStatus())
-			mainApp.getTypewriterController().changeActiveStatus();
-		
+	{	
 		mainApp.showPanel(mainApp.getMenuPane());
 	}
 	
 	@FXML
 	private void handleBoard()
 	{
-		if(mainApp.getTypewriterController().getActiveStatus())
-			mainApp.getTypewriterController().changeActiveStatus();
-		
 		mainApp.showPanel(mainApp.getGameBoard());
 	}
 	

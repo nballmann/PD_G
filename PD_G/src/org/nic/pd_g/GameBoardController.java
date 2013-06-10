@@ -75,7 +75,7 @@ public class GameBoardController implements ControllerInterface
 					{
 						if(event.getButton()==MouseButton.PRIMARY)
 						{
-							gc.clearRect(event.getX() - 2, event.getY() - 2, 6, 6);
+							gc.clearRect(event.getX() - 3, event.getY() - 3, 6, 6);
 						}
 					}
 				});
@@ -103,7 +103,6 @@ public class GameBoardController implements ControllerInterface
 		gc.fillRect(xPos, yPos, 
 					Math.random() * canvas.getWidth()/2, 
 					Math.random() * canvas.getHeight()/2);	
-		
 	}
 	
 	private void clearCanvas()
