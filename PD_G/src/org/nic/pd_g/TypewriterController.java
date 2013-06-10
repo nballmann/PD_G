@@ -84,12 +84,6 @@ public class TypewriterController implements Runnable, ControllerInterface
 		}
 	}
 	
-	public synchronized void stop()
-	{
-		mainApp.setTypewriterController(null);
-		notify();
-	}
-
 	@Override
 	public void run() 
 	{

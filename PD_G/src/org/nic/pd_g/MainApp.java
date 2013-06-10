@@ -17,6 +17,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 public class MainApp extends Application 
 {
@@ -41,12 +43,22 @@ public class MainApp extends Application
 	
 	private volatile Thread t1;
 	private volatile Thread t2;
-
+	
+	public AnchorPane getGameBoard()						{ return gameBoard; }
+	public AnchorPane getMenuPane()							{ return menuPane; }
+	public AnchorPane getTypewriterPane()					{ return typewriterPane; }
+	public AnchorPane getChartPane()						{ return chartPane; }
+	public Browser getBrowser()								{ return theBrowser; }
+	public GameBoardController getGameBoardController()		{ return gameBoardController; }
+	public TypewriterController getTypewriterController() 	{ return typewriterController; }
+	public ChartPaneController getChartPaneController() 	{ return chartPaneController; }
+	
+	public Thread getThread1()								{ return t1; }
+	public Thread getThread2()								{ return t2; }
+	
 	@Override
 	public void start(Stage primaryStage) 
 	{
-		
-		
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("JavaFX 2.0 Testumgebung");
 		
@@ -57,8 +69,9 @@ public class MainApp extends Application
 		rootPane.setCenter(menuPane);
 		menuLayoutController.changeActiveStatus();
 		
-		createTypewriter();
 		createChartPane();
+		createTypewriter();
+		
 		theBrowser = createBrowser();
 	
 		if(menuPane==null)
@@ -68,7 +81,7 @@ public class MainApp extends Application
 			System.out.println("GameBoard null");
 	
 		primaryStage.show();
-		primaryStage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>(){
+		primaryStage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>() {
 
 			@Override
 			public void handle(WindowEvent e) 
@@ -84,8 +97,9 @@ public class MainApp extends Application
 		t2 = new Thread(new Task<Void>() {
 
 			@Override
-			protected Void call() throws Exception {
-				
+			protected Void call() throws Exception
+			{
+				chartPaneController.addChangeListener(new BooleanChangeListener());
 				chartPaneController.createChartTask();
 				
 				return null;
@@ -96,21 +110,6 @@ public class MainApp extends Application
 		t1.start();
 		t2.start();
 	}
-	
-	public AnchorPane getGameBoard()						{ return gameBoard; }
-	public AnchorPane getMenuPane()							{ return menuPane; }
-	public AnchorPane getTypewriterPane()					{ return typewriterPane; }
-	public AnchorPane getChartPane()						{ return chartPane; }
-	public Browser getBrowser()								{ return theBrowser; }
-	public GameBoardController getGameBoardController()		{ return gameBoardController; }
-	public TypewriterController getTypewriterController() 	{ return typewriterController; }
-	public ChartPaneController getChartPaneController() 	{ return chartPaneController; }
-	
-	public Thread getThread1()								{ return t1; }
-	public Thread getThread2()								{ return t2; }
-	
-	public void setTypewriterController(final TypewriterController typeController)	{ this.typewriterController = typeController; }
-	public void setChartPaneController(final ChartPaneController chartController)	{ this.chartPaneController = chartController; }
 	
 	private void showRootLayout()
 	{
@@ -137,7 +136,7 @@ public class MainApp extends Application
 		{	
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/MenuLayout.fxml"));
 			menuPane = (AnchorPane) loader.load();
-//			rootPane.setCenter(menuPane);
+			
 			centerPaneList.add(menuPane);
 			
 			// Give the controller access to the main app
@@ -157,7 +156,6 @@ public class MainApp extends Application
 		{	
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/GameBoardView.fxml"));
 			gameBoard = (AnchorPane) loader.load();
-//			rootPane.setCenter(gameBoard);
 			
 			centerPaneList.add(gameBoard);
 			
@@ -200,7 +198,6 @@ public class MainApp extends Application
 		{
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/ChartPaneView.fxml"));
 			chartPane = (AnchorPane) loader.load();
-//			rootPane.setCenter(chartPane);
 			
 			centerPaneList.add(chartPane);
 			
@@ -209,6 +206,7 @@ public class MainApp extends Application
 		    chartPaneController.setMainApp(this);
 		    chartPaneController.showLineCharts();
 		    chartPaneController.setView(chartPane);
+		    
 		    controllerList.add(chartPaneController);
 			
 		} catch(IOException e) {}
@@ -256,6 +254,18 @@ public class MainApp extends Application
 			}
 			
 		}
+	}
+	
+	private class BooleanChangeListener implements ChangeListener<Boolean>
+	{
+		@Override
+		public void changed(ObservableValue<? extends Boolean> o,
+				Boolean oldVal, Boolean newVal) 
+		{
+			System.out.println("Active Status changed");
+			notify();
+		}
+		
 	}
 	
 	

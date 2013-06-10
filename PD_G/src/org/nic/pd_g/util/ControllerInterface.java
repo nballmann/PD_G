@@ -11,5 +11,4 @@ public interface ControllerInterface
 	public Region getView();
 	public void changeActiveStatus();
 	public boolean getActiveStatus();
-	
 }

@@ -7,6 +7,8 @@ import org.nic.pd_g.util.YQL_Exch_Connection;
 // import org.nic.pd_g.util.YahooDB_Connection;
 
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,10 +22,9 @@ import javafx.scene.paint.Color;
 
 public class ChartPaneController implements ControllerInterface
 {
-	
 	private MainApp mainApp;
 	
-	private volatile boolean isActive = false;
+	private volatile BooleanProperty isActive;
 	private Region theView;
 	
 	private ObservableList<LineChart<String,Number>> lineChartList;
@@ -32,6 +33,8 @@ public class ChartPaneController implements ControllerInterface
 	private static int listCount = 0;
 
 	public void setMainApp(MainApp mainApp)	{ this.mainApp = mainApp; }
+
+	
 	
 	@Override
 	public void setView(Region view) {
@@ -43,21 +46,28 @@ public class ChartPaneController implements ControllerInterface
 		return theView;
 	}
 	
-	public boolean getActiveStatus()	{ return isActive; }
+	public boolean getActiveStatus()	{ return isActive.get(); }
 	
 	public synchronized void changeActiveStatus()
 	{
-		isActive = !isActive;
+		isActive.set(!getActiveStatus());
 		notify();
 	}
 	
 	@FXML
 	private void initialize()
 	{
+		isActive.set(false);
 		lineChartList = FXCollections.observableArrayList();
 		chartSeriesList = FXCollections.observableArrayList();
 		addNewChart(YQL_Exch_Connection.DAX_SYMBOL);
 		addNewChart(YQL_Exch_Connection.MDAX_SYMBOL);
+		
+	}
+	
+	public void addChangeListener(ChangeListener<? super Boolean> myListener)
+	{
+		isActive.addListener(myListener);
 	}
 	
 	public void addNewChart(String ...symbol)
@@ -163,7 +173,7 @@ public class ChartPaneController implements ControllerInterface
 		
 		while(currentThread == Thread.currentThread())
 		{
-			while(isActive)
+			while(getActiveStatus())
 			{
 				animateGraph();
 				
@@ -176,7 +186,7 @@ public class ChartPaneController implements ControllerInterface
 			
 			synchronized(this)
 			{
-				while(!isActive && currentThread == Thread.currentThread())
+				while(!getActiveStatus() && currentThread == Thread.currentThread())
 				{
 					try
 					{
@@ -187,11 +197,5 @@ public class ChartPaneController implements ControllerInterface
 			}
 		}	
 	}
-	
-	public synchronized void stop()
-	{
-		mainApp.setChartPaneController(null);
-		notify();
-	}
-	
+
 }
