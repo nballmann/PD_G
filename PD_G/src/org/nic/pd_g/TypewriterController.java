@@ -29,11 +29,11 @@ public class TypewriterController implements Runnable, ControllerInterface
 	private void initialize()
 	{
 		runningText = string.toCharArray();
-		System.out.println(runningText.length);
-		System.out.println(runningText);
+//		System.out.println(runningText.length);
+//		System.out.println(runningText);
 		runningText = string.toCharArray();
 		typeText.setText(string);
-		System.out.println(runningText.length);
+//		System.out.println(runningText.length);
 	}
 	
 	public TypewriterController()
