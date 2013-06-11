@@ -2,10 +2,11 @@
 
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" xmlns:fx="http://javafx.com/fxml" fx:controller="org.nic.pd_g.ChartPaneController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="background" xmlns:fx="http://javafx.com/fxml" fx:controller="org.nic.pd_g.ChartPaneController">
   <!-- TODO Add Nodes -->
   <stylesheets>
     <URL value="@Theme.css" />
