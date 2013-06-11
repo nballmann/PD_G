@@ -22,8 +22,6 @@ import javafx.beans.value.ObservableValue;
 
 public class MainApp extends Application 
 {
-//	private static final String PROXY_IP = "10.140.142.10";
-//	private static final String PROXY_PORT = "3128";
 	
 	private Stage primaryStage;
 	private BorderPane rootPane;
@@ -232,6 +230,7 @@ public class MainApp extends Application
 	}
 	
 	/*
+	 * @Javadoc 
 	 * @param t = valid Node extending Region
 	 * 
 	 */
