@@ -67,8 +67,10 @@ public class MainApp extends Application
 		rootPane.setCenter(menuPane);
 		menuLayoutController.changeActiveStatus();
 		
-		createChartPane();
 		createTypewriter();
+		
+		createChartPane();
+		
 		
 		theBrowser = createBrowser();
 	
@@ -194,6 +196,7 @@ public class MainApp extends Application
 	{
 		try
 		{
+			
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/ChartPaneView.fxml"));
 			chartPane = (AnchorPane) loader.load();
 			
@@ -207,7 +210,9 @@ public class MainApp extends Application
 		    
 		    controllerList.add(chartPaneController);
 			
-		} catch(IOException e) {}
+		} 
+		catch(IOException e) { e.printStackTrace(); }
+		
 		
 	}
 	

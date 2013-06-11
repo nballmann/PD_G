@@ -2,12 +2,12 @@ package org.nic.pd_g;
 
 import org.nic.pd_g.model.ChartData;
 import org.nic.pd_g.util.ControllerInterface;
+import org.nic.pd_g.util.ObservableBoolean;
 import org.nic.pd_g.util.TimeUtil;
 import org.nic.pd_g.util.YQL_Exch_Connection;
-// import org.nic.pd_g.util.YahooDB_Connection;
 
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,18 +24,17 @@ public class ChartPaneController implements ControllerInterface
 {
 	private MainApp mainApp;
 	
-	private volatile BooleanProperty isActive;
+	private ObservableBoolean active;
+	private SimpleBooleanProperty isActive;
 	private Region theView;
 	
 	private ObservableList<LineChart<String,Number>> lineChartList;
-	private volatile ObservableList<XYChart.Series<String,Number>> chartSeriesList;
+	private ObservableList<XYChart.Series<String,Number>> chartSeriesList;
 	
 	private static int listCount = 0;
 
 	public void setMainApp(MainApp mainApp)	{ this.mainApp = mainApp; }
 
-	
-	
 	@Override
 	public void setView(Region view) {
 		theView = view;
@@ -50,14 +49,17 @@ public class ChartPaneController implements ControllerInterface
 	
 	public synchronized void changeActiveStatus()
 	{
-		isActive.set(!getActiveStatus());
+		active.set(!getActiveStatus());		
 		notify();
 	}
 	
 	@FXML
 	private void initialize()
 	{
-		isActive.set(false);
+		active = new ObservableBoolean(false);
+		isActive = new SimpleBooleanProperty();
+		isActive.bind(active);
+		
 		lineChartList = FXCollections.observableArrayList();
 		chartSeriesList = FXCollections.observableArrayList();
 		addNewChart(YQL_Exch_Connection.DAX_SYMBOL);
@@ -179,7 +181,7 @@ public class ChartPaneController implements ControllerInterface
 				
 				try
 				{
-					Thread.sleep(8000);
+					Thread.sleep(6000);
 				}
 				catch(InterruptedException e) { break; }
 			}
