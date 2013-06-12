@@ -61,5 +61,6 @@ public class MenuLayoutController implements ControllerInterface
 	@Override
 	public synchronized void changeActiveStatus() {
 		isActive = !isActive;
+		notify();
 	}
 }

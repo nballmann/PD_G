@@ -6,8 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Properties;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,7 +21,7 @@ public class YQL_Exch_Connection
 			"yql?q=select%20*%20from%20yahoo.finance.quoteslist%20where%20symbol%3D'%5E";
 			
 	private static final String YAHOO_URL_SECOND = "'&diagnostics=true&env=store%3A%2F%2" +
-			"										Fdatatables.org%2Falltableswithkeys";
+													"Fdatatables.org%2Falltableswithkeys";
 	
 	public static final String DAX_SYMBOL = "GDAXI";
 	public static final String GSPC_SYMBOL = "GSPC";
@@ -41,8 +39,8 @@ public class YQL_Exch_Connection
 	public static final String KOSPI_SYMBOL = "KS11";
 	public static final String NZX50_SYMBOL = "NZ50";
 	
-	private static final String PROXY_IP = "10.140.142.10";
-	private static final String PROXY_PORT = "3128";
+//	private static final String PROXY_IP = "10.140.142.10";
+//	private static final String PROXY_PORT = "3128";
 	
 	public static final String DAX_YQL_URL = YAHOO_URL_FIRST + DAX_SYMBOL + YAHOO_URL_SECOND;
 	public static final String GSPC_YQL_URL = YAHOO_URL_FIRST + GSPC_SYMBOL + YAHOO_URL_SECOND;
@@ -107,9 +105,9 @@ public class YQL_Exch_Connection
 			URL url = new URL(yqlURL);
 			URLConnection connection;
 			
-			Properties systemProperties = System.getProperties();
-			systemProperties.setProperty("http.proxyHost", PROXY_IP);
-			systemProperties.setProperty("http.proxyPort", PROXY_PORT);
+//			Properties systemProperties = System.getProperties();
+//			systemProperties.setProperty("http.proxyHost", PROXY_IP);
+//			systemProperties.setProperty("http.proxyPort", PROXY_PORT);
 			
 			connection = url.openConnection();
 			
@@ -119,6 +117,7 @@ public class YQL_Exch_Connection
 			
 			int responceCode = httpConnection.getResponseCode();
 			
+			System.out.println("Sending Query... " + "Responce Code: " + responceCode);
 			if(responceCode == HttpURLConnection.HTTP_OK)
 			{
 //				System.out.println("Connect OK");
@@ -149,7 +148,23 @@ public class YQL_Exch_Connection
 						 open = theExch.getOpen();
 					 }	 
 				 }
-			}		
+			}
+			else if(responceCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT)
+			{
+				System.out.println("Client Timeout");
+			}
+			else if(responceCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT)
+			{
+				System.out.println("Gateway Timeout");
+			}
+			else if(responceCode == HttpURLConnection.HTTP_UNAVAILABLE)
+			{
+				System.out.println("Service Unavailable");
+			}
+			else
+			{
+				System.out.println("Responce Code: " + responceCode);
+			}
 		}
 		catch (MalformedURLException e) {}	
 		catch (IOException e) {}	
@@ -162,7 +177,7 @@ public class YQL_Exch_Connection
 	
 	 private static ExchInfo getStockInformation(final Element entry)
 	 {	 	
-		lastTradePriceOnly = getTextValue(entry, "LastTradePriceOnly"); 
+		lastTradePriceOnly = getTextValue(entry, "LastTradePriceOnly");
         lastTradeDate = getTextValue(entry, "LastTradeDate");
         lastTradeTime = getTextValue(entry, "LastTradeTime");
         change = getTextValue(entry, "Change");

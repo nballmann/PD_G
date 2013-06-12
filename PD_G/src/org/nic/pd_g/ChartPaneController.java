@@ -1,5 +1,7 @@
 package org.nic.pd_g;
 
+import java.util.Properties;
+
 import org.nic.pd_g.model.ChartData;
 import org.nic.pd_g.util.ActiveStatus;
 import org.nic.pd_g.util.ControllerInterface;
@@ -21,6 +23,9 @@ import javafx.scene.paint.Color;
 
 public class ChartPaneController implements ControllerInterface
 {
+	private static final String PROXY_IP = "10.140.142.10";
+	private static final String PROXY_PORT = "3128";
+	
 	private MainApp mainApp;
 	
 	private volatile ActiveStatus activeStatus;
@@ -47,19 +52,18 @@ public class ChartPaneController implements ControllerInterface
 	
 	public synchronized void changeActiveStatus()
 	{
-		if(getActiveStatus())
-		{ 
-			activeStatus.setActiveStatus(false);
-		}
-		else
-		{
-			activeStatus.setActiveStatus(true);
-		}
+		activeStatus.setActiveStatus(!getActiveStatus());
+		notify();
 	}
 	
 	@FXML
 	private void initialize()
 	{
+		
+		Properties systemProperties = System.getProperties();
+		systemProperties.setProperty("http.proxyHost", PROXY_IP);
+		systemProperties.setProperty("http.proxyPort", PROXY_PORT);
+		
 		activeStatus = new ActiveStatus();
 		System.out.println(activeStatus.getActiveStatus());
 		
@@ -106,7 +110,7 @@ public class ChartPaneController implements ControllerInterface
 		lineChart.setAnimated(true);
 		
 		String chartTitle = "Aktienkurs: ";
-		for(String sym : symbol)
+		for(final String sym : symbol)
 		{
 			XYChart.Series<String,Number> series = new XYChart.Series<String,Number>();
 			series.setName(sym);
@@ -138,14 +142,16 @@ public class ChartPaneController implements ControllerInterface
 		
 	}
 	
-	public void animateGraph()
+	private void animateGraph()
 	{
 		for(final XYChart.Series<String,Number> series : chartSeriesList)
 		{
+			System.out.println("Getting LastTradePrice...");
 			final double stockPrice = Double.parseDouble((
 					YQL_Exch_Connection.connectTo(
 							YQL_Exch_Connection.getYQLUrl(series.getName()))).getLastTradePriceOnly());
-		
+			System.out.println("...done!");
+			
 			if(series.getData().size() >= 12)
 				series.getData().remove(0);
 			
@@ -154,12 +160,14 @@ public class ChartPaneController implements ControllerInterface
 				@Override
 				public void run() {
 					
+					System.out.println("Running on MainThread...");
 					try
 					{
 						series.getData().add(
 								ChartData.generateNewChartData(stockPrice));
 						
 						System.out.println(series.getName() + " (" + TimeUtil.getFormattedTime() + " : " + stockPrice + ")");
+						System.out.println("....MainThread done");
 					}
 					catch(NullPointerException e)
 					{
@@ -176,17 +184,19 @@ public class ChartPaneController implements ControllerInterface
 		
 		while(currentThread == Thread.currentThread())
 		{
-			System.out.println("Chart Thread");
 			while(getActiveStatus())
 			{
-				System.out.println("Chart Thread animating");
+				System.out.println("Chart Thread working");
 				animateGraph();
 				
 				try
 				{
-					Thread.sleep(9000);
+					Thread.sleep(10000);
 				}
-				catch(InterruptedException e) { break; }
+				catch(InterruptedException e) { 
+					System.out.println("Thread break");
+					break;
+				}
 			}
 			
 			synchronized(this)
@@ -196,9 +206,10 @@ public class ChartPaneController implements ControllerInterface
 					try
 					{
 						System.out.println("Chart Thread waiting");
+						
 						wait();
 					}
-					catch(InterruptedException e) { break; }
+					catch(InterruptedException e) { System.out.println("Thread break"); break;  }
 				}
 			}
 		}	

@@ -25,7 +25,6 @@ public class RootLayoutController
 	{
 //		mainApp.getTypewriterController().changeActiveStatus();
 		mainApp.getChartPaneController().changeActiveStatus();
-		mainApp.getChartPaneController().notify();
 	}
 	
 	@FXML
