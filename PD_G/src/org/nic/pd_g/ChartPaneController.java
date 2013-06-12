@@ -1,13 +1,12 @@
 package org.nic.pd_g;
 
 import org.nic.pd_g.model.ChartData;
+import org.nic.pd_g.util.ActiveStatus;
 import org.nic.pd_g.util.ControllerInterface;
-import org.nic.pd_g.util.ObservableBoolean;
 import org.nic.pd_g.util.TimeUtil;
 import org.nic.pd_g.util.YQL_Exch_Connection;
 
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,8 +23,7 @@ public class ChartPaneController implements ControllerInterface
 {
 	private MainApp mainApp;
 	
-	private ObservableBoolean active;
-	private SimpleBooleanProperty isActive;
+	private volatile ActiveStatus activeStatus;
 	private Region theView;
 	
 	private ObservableList<LineChart<String,Number>> lineChartList;
@@ -45,20 +43,25 @@ public class ChartPaneController implements ControllerInterface
 		return theView;
 	}
 	
-	public boolean getActiveStatus()	{ return isActive.get(); }
+	public boolean getActiveStatus()	{ return activeStatus.getActiveStatus(); }
 	
 	public synchronized void changeActiveStatus()
 	{
-		active.set(!getActiveStatus());		
-		notify();
+		if(getActiveStatus())
+		{ 
+			activeStatus.setActiveStatus(false);
+		}
+		else
+		{
+			activeStatus.setActiveStatus(true);
+		}
 	}
 	
 	@FXML
 	private void initialize()
 	{
-		active = new ObservableBoolean(false);
-		isActive = new SimpleBooleanProperty();
-		isActive.bind(active);
+		activeStatus = new ActiveStatus();
+		System.out.println(activeStatus.getActiveStatus());
 		
 		lineChartList = FXCollections.observableArrayList();
 		chartSeriesList = FXCollections.observableArrayList();
@@ -69,7 +72,7 @@ public class ChartPaneController implements ControllerInterface
 	
 	public void addChangeListener(ChangeListener<? super Boolean> myListener)
 	{
-		isActive.addListener(myListener);
+		activeStatus.activeStatusProperty().addListener(myListener);
 	}
 	
 	public void addNewChart(String ...symbol)
@@ -99,7 +102,6 @@ public class ChartPaneController implements ControllerInterface
 		
 		
 		lineChart.setTitleSide(Side.TOP);
-//		lineChart.setLegendSide(Side.RIGHT);
 		lineChart.setLegendVisible(false);
 		lineChart.setAnimated(true);
 		
@@ -170,18 +172,19 @@ public class ChartPaneController implements ControllerInterface
 
 	public void createChartTask()
 	{
-	
 		final Thread currentThread = mainApp.getThread2();
 		
 		while(currentThread == Thread.currentThread())
 		{
+			System.out.println("Chart Thread");
 			while(getActiveStatus())
 			{
+				System.out.println("Chart Thread animating");
 				animateGraph();
 				
 				try
 				{
-					Thread.sleep(6000);
+					Thread.sleep(9000);
 				}
 				catch(InterruptedException e) { break; }
 			}
@@ -192,6 +195,7 @@ public class ChartPaneController implements ControllerInterface
 				{
 					try
 					{
+						System.out.println("Chart Thread waiting");
 						wait();
 					}
 					catch(InterruptedException e) { break; }

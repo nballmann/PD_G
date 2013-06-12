@@ -1,0 +1,2 @@
+if(true)
+	System.out.println("test");

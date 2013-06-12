@@ -219,11 +219,6 @@ public class MainApp extends Application
 	private Browser createBrowser()
 	{
 		Browser temp = new Browser();
-
-//		temp.setPrefSize(800, 600);
-//		temp.setMaxSize(1920, 1024);
-//		temp.setMinSize(300, 200);
-//		temp.setManaged(true);
 		
 		centerPaneList.add(temp);
 		
@@ -256,7 +251,6 @@ public class MainApp extends Application
 					System.out.println(controller + " Jetzt:" + controller.getActiveStatus());
 				}	
 			}
-			
 		}
 	}
 	
@@ -267,7 +261,6 @@ public class MainApp extends Application
 				Boolean oldVal, Boolean newVal) 
 		{
 			System.out.println("Active Status changed");
-			notify();
 		}
 		
 	}

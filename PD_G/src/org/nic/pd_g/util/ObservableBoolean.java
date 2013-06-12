@@ -15,7 +15,7 @@ public class ObservableBoolean implements ObservableBooleanValue
 
 	@Override
 	public void addListener(ChangeListener<? super Boolean> listener) {
-		this.addListener(listener);
+//		this.addListener(listener);
 		
 	}
 
@@ -27,7 +27,7 @@ public class ObservableBoolean implements ObservableBooleanValue
 
 	@Override
 	public void removeListener(ChangeListener<? super Boolean> listener) {
-		this.removeListener(listener);
+//		this.removeListener(listener);
 		
 	}
 
@@ -39,7 +39,7 @@ public class ObservableBoolean implements ObservableBooleanValue
 
 	@Override
 	public void removeListener(InvalidationListener listener) {
-		this.removeListener(listener);
+//		this.removeListener(listener);
 		
 	}
 
