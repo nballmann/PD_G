@@ -2,7 +2,10 @@ package org.nic.pd_g;
 
 import javafx.fxml.FXML;
 
-
+/**
+ * Root Layout Controller of the Main Application<br>
+ * Handles all Menu entries of the main Menu bar
+ */
 public class RootLayoutController 
 {
 	private MainApp mainApp;

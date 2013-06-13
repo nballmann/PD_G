@@ -20,23 +20,49 @@ import javafx.stage.WindowEvent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
+
+/**
+ * The JavaFX 2.x main class controlling the scene graph
+ * 
+ * This Application is for testing purposes of the Java FX 2.x 
+ * capabilities only
+ * <ul>
+ * <li>Actual implementations:
+ * <li>GameBoard: 	Drawing board for testing of Canvas capabilities
+ * <li>Typewriter: 	simple thread implementation for Text and Label
+ * <li>ChartPane: 	complex implementation of the JavaFX Chart-System 
+ * <li>				using YQL Queries and DOM W3C for parsing database
+ * <li>				entries of real-time stock-data
+ * <li>Browser:		HTML viewer based on WebKit-Engine
+ * </ul>
+ * @author NBallmann
+ * @version %I%, %G%
+ * @since 0.2
+ */
 public class MainApp extends Application 
 {
 	
 	private Stage primaryStage;
+	
+	// Austauschbare Panes im Scene graph der App
 	private BorderPane rootPane;
 	private AnchorPane menuPane;
 	private AnchorPane gameBoard;
 	private AnchorPane typewriterPane;
 	private AnchorPane chartPane;
 	private Browser theBrowser;
+	
+	// Zugehörige Controller
 	private MenuLayoutController menuLayoutController;
 	private GameBoardController gameBoardController;
 	private TypewriterController typewriterController;
 	private ChartPaneController chartPaneController;
 	private BrowserController browserController;
 	
-	private final ObservableList<Node> centerPaneList = FXCollections.observableArrayList();
+	
+//	private final ObservableList<Node> centerPaneList = FXCollections.observableArrayList();
+	
+	// ObservableList für die ControllerObjekte -> erlaubt generische Implementierung einer Methode zur Sichtbarkeitssteuerung
 	private final ObservableList<ControllerInterface> controllerList = FXCollections.observableArrayList();
 	
 	private volatile Thread t1;
@@ -51,7 +77,10 @@ public class MainApp extends Application
 	public TypewriterController getTypewriterController() 	{ return typewriterController; }
 	public ChartPaneController getChartPaneController() 	{ return chartPaneController; }
 	
+	// Thread für den TypewriterController
 	public Thread getThread1()								{ return t1; }
+	
+	// Thread für die Animation des ChartsPanes
 	public Thread getThread2()								{ return t2; }
 	
 	@Override
@@ -70,7 +99,6 @@ public class MainApp extends Application
 		createTypewriter();
 		
 		createChartPane();
-		
 		
 		theBrowser = createBrowser();
 	
@@ -137,7 +165,7 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/MenuLayout.fxml"));
 			menuPane = (AnchorPane) loader.load();
 			
-			centerPaneList.add(menuPane);
+//			centerPaneList.add(menuPane);
 			
 			// Give the controller access to the main app
 		    menuLayoutController = loader.getController();
@@ -157,7 +185,7 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/GameBoardView.fxml"));
 			gameBoard = (AnchorPane) loader.load();
 			
-			centerPaneList.add(gameBoard);
+//			centerPaneList.add(gameBoard);
 			
 			 // Give the controller access to the main app
 		    GameBoardController gameBoardController = loader.getController();
@@ -179,7 +207,7 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/TypewriterView.fxml"));
 			typewriterPane = (AnchorPane) loader.load();
 			
-			centerPaneList.add(typewriterPane);
+//			centerPaneList.add(typewriterPane);
 			
 			// Give the controller access to the main app
 		    typewriterController = loader.getController();
@@ -200,7 +228,7 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/ChartPaneView.fxml"));
 			chartPane = (AnchorPane) loader.load();
 			
-			centerPaneList.add(chartPane);
+//			centerPaneList.add(chartPane);
 			
 			// Give the controller access to the main app
 		    chartPaneController = loader.getController();
@@ -220,7 +248,7 @@ public class MainApp extends Application
 	{
 		Browser temp = new Browser();
 		
-		centerPaneList.add(temp);
+//		centerPaneList.add(temp);
 		
 		browserController = new BrowserController();
 		browserController.setView(temp);
@@ -229,9 +257,11 @@ public class MainApp extends Application
 		return temp;
 	}
 	
-	/*
-	 * @Javadoc 
-	 * @param t = valid Node extending Region
+	/**
+	 * Generic method for swapping the center node  of
+	 * the RootPane(BorderPane)
+	 * @param t	valid Node extending Region
+	 * <p>
 	 * 
 	 */
 	public <T extends Region> void showPanel(final T t)
@@ -264,7 +294,6 @@ public class MainApp extends Application
 		}
 		
 	}
-	
 	
 	public static void main(String[] args) {
 		launch(args);

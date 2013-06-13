@@ -11,10 +11,10 @@
   <children>
     <VBox id="VBox" alignment="CENTER" layoutX="250.0" layoutY="128.0" spacing="35.0">
       <children>
-        <Button mnemonicParsing="false" onAction="#handleNewGame" prefWidth="300.0" text="New Game" />
-        <Button mnemonicParsing="false" onAction="#handleTypewriter" prefWidth="300.0" text="Load Game" />
-        <Button mnemonicParsing="false" onAction="#handleChartPane" prefWidth="300.0" text="Multiplayer" />
-        <Button mnemonicParsing="false" onAction="#handleSettings" prefWidth="300.0" text="Settings" />
+        <Button mnemonicParsing="false" onAction="#handleNewGame" prefWidth="300.0" text="Drawing Board" />
+        <Button mnemonicParsing="false" onAction="#handleTypewriter" prefWidth="300.0" text="Typewriter" />
+        <Button mnemonicParsing="false" onAction="#handleChartPane" prefWidth="300.0" text="Chart Pane" />
+        <Button mnemonicParsing="false" onAction="#handleSettings" prefWidth="300.0" text="Browser" />
         <Button mnemonicParsing="false" onAction="#handleExit" prefWidth="300.0" text="Exit" />
       </children>
     </VBox>

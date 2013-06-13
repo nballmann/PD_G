@@ -21,6 +21,16 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
+/**
+ * ChartPaneController:<br>
+ * Creating the Charts in the corresponding view, adding Axes and 
+ * Chart-Series with Chart-Data.
+ * <p>
+ * Adding Data is done by the Main-Thread. <br>Animation and queries by 
+ * this objects monitor
+ * 
+ * @author NBallmann
+ */
 public class ChartPaneController implements ControllerInterface
 {
 	private static final String PROXY_IP = "10.140.142.10";
@@ -74,11 +84,24 @@ public class ChartPaneController implements ControllerInterface
 		
 	}
 	
+	/**
+	 * Allows the Main Application Thread to add a listener to this
+	 * objects active Status
+	 * 
+	 * @param myListener ChangeListener of type Boolean or corresponding superclass
+	 */
 	public void addChangeListener(ChangeListener<? super Boolean> myListener)
 	{
 		activeStatus.activeStatusProperty().addListener(myListener);
 	}
 	
+	/**
+	 * Constructs a new Chart object for the given stock-symbol(s)
+	 * 
+	 * @param symbol	variable number of chart symbols each representing a new 
+	 * 					LineChart object
+	 * 					<p>Recommend: Use constants from org.nic.pd_g.util.YQL_Exch_Connection.java
+	 */
 	public void addNewChart(String ...symbol)
 	{
 		NumberAxis yAxis = new NumberAxis();
@@ -178,6 +201,14 @@ public class ChartPaneController implements ControllerInterface
 		}
 	}
 
+	/**
+	 * <p>
+	 * Executes the animation of the chart graphs while the current thread is
+	 * marked as active.
+	 * <p>
+	 * Manipulation of the scene graph is has to be done by the main application thread.<br>
+	 * -> Adding new Chart-Data to the Series is passed to the main thread.
+	 */
 	public void createChartTask()
 	{
 		final Thread currentThread = mainApp.getThread2();

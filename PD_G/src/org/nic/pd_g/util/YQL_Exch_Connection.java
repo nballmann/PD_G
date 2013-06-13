@@ -15,6 +15,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+
+/**
+ * 
+ */
 public class YQL_Exch_Connection 
 {
 	private static final String YAHOO_URL_FIRST = "http://query.yahooapis.com/v1/public/" +
@@ -88,7 +92,6 @@ public class YQL_Exch_Connection
 	public static String getVolume() {
 		return volume;
 	}
-
 	// --------------------------------------------------------------------------------------
 	
 	public static String getYQLUrl(final String symbol)
@@ -96,13 +99,23 @@ public class YQL_Exch_Connection
 		return YAHOO_URL_FIRST + symbol + YAHOO_URL_SECOND;
 	}
 	
+	/**
+	 * <p>
+	 * Connects to the Yahoo yql-table: <code>yahoo.finance.quoteslist</code> and gets information from the 
+	 * stock symbol passed as the parameter.
+	 * <p>
+	 * The input stream is passed as a DOM and parsed to String via "quote" tag name.
+	 * 
+	 * @param yqlURL	constant market stock symbol
+	 * @return all query information as an ExchInfo object
+	 */
 	public static ExchInfo connectTo(final String yqlURL)
 	{	
 		ExchInfo theExch = null;
 		
 		try
 		{
-			URL url = new URL(yqlURL);
+			final URL url = new URL(yqlURL);
 			URLConnection connection;
 			
 //			Properties systemProperties = System.getProperties();
@@ -115,7 +128,7 @@ public class YQL_Exch_Connection
 			
 //			System.out.println(httpConnection.usingProxy());
 			
-			int responceCode = httpConnection.getResponseCode();
+			final int responceCode = httpConnection.getResponseCode();
 			
 			System.out.println("Sending Query... " + "Responce Code: " + responceCode);
 			if(responceCode == HttpURLConnection.HTTP_OK)
