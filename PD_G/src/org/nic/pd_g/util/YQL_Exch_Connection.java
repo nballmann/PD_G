@@ -128,10 +128,10 @@ public class YQL_Exch_Connection
 			
 //			System.out.println(httpConnection.usingProxy());
 			
-			final int responceCode = httpConnection.getResponseCode();
+			final int responseCode = httpConnection.getResponseCode();
 			
-			System.out.println("Sending Query... " + "Responce Code: " + responceCode);
-			if(responceCode == HttpURLConnection.HTTP_OK)
+			System.out.println("Sending Query... " + "Responce Code: " + responseCode);
+			if(responseCode == HttpURLConnection.HTTP_OK)
 			{
 //				System.out.println("Connect OK");
 				InputStream in = httpConnection.getInputStream();
@@ -162,21 +162,21 @@ public class YQL_Exch_Connection
 					 }	 
 				 }
 			}
-			else if(responceCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT)
+			else if(responseCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT)
 			{
 				System.out.println("Client Timeout");
 			}
-			else if(responceCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT)
+			else if(responseCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT)
 			{
 				System.out.println("Gateway Timeout");
 			}
-			else if(responceCode == HttpURLConnection.HTTP_UNAVAILABLE)
+			else if(responseCode == HttpURLConnection.HTTP_UNAVAILABLE)
 			{
 				System.out.println("Service Unavailable");
 			}
 			else
 			{
-				System.out.println("Responce Code: " + responceCode);
+				System.out.println("Response Code: " + responseCode);
 			}
 		}
 		catch (MalformedURLException e) {}	

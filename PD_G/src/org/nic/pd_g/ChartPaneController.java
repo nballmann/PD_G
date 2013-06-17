@@ -86,7 +86,7 @@ public class ChartPaneController implements ControllerInterface
 	
 	/**
 	 * Allows the Main Application Thread to add a listener to this
-	 * objects active Status
+	 * objects active status
 	 * 
 	 * @param myListener ChangeListener of type Boolean or corresponding superclass
 	 */
@@ -96,7 +96,7 @@ public class ChartPaneController implements ControllerInterface
 	}
 	
 	/**
-	 * Constructs a new Chart object for the given stock-symbol(s)
+	 * Constructs a new Chart object for each given stock-symbol
 	 * 
 	 * @param symbol	variable number of chart symbols each representing a new 
 	 * 					LineChart object
