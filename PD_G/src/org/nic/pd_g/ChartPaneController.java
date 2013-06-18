@@ -161,9 +161,7 @@ public class ChartPaneController implements ControllerInterface
 	}
 	
 	public ChartPaneController()
-	{
-		
-	}
+	{}
 	
 	private void animateGraph()
 	{

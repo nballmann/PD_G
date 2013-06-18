@@ -19,6 +19,15 @@ public interface ControllerInterface
 	public void setMainApp(MainApp mainApp);
 	public void setView(Region view);
 	public Region getView();
+	
+	/**
+	 * <p>
+	 * Method for changing the visibility of the Node
+	 * <p>
+	 * Implement as synchronized with a call to
+	 * notify() for Inversion of Control paradigm
+	 * in the Main Application Scene Graph
+	 */
 	public void changeActiveStatus();
 	public boolean getActiveStatus();
 }

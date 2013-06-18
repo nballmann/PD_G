@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="100.0" prefWidth="800.0" styleClass="background" xmlns:fx="http://javafx.com/fxml" fx:controller="org.nic.pd_g.FadeMenuController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <HBox id="HBox" alignment="CENTER" layoutX="179.0" layoutY="35.0" spacing="100.0">
+      <children>
+        <Button mnemonicParsing="false" text="Button1" />
+        <Button mnemonicParsing="false" text="Button2" />
+        <Button mnemonicParsing="false" text="Button3" />
+      </children>
+    </HBox>
+  </children>
+  <stylesheets>
+    <URL value="@Theme.css" />
+  </stylesheets>
+</AnchorPane>

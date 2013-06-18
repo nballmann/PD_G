@@ -50,6 +50,7 @@ public class MainApp extends Application
 	private AnchorPane gameBoard;
 	private AnchorPane typewriterPane;
 	private AnchorPane chartPane;
+	private AnchorPane fadeMenu;
 	private Browser theBrowser;
 	
 	// Zugehörige Controller
@@ -58,6 +59,7 @@ public class MainApp extends Application
 	private TypewriterController typewriterController;
 	private ChartPaneController chartPaneController;
 	private BrowserController browserController;
+	private FadeMenuController fadeMenuController;
 	
 	
 //	private final ObservableList<Node> centerPaneList = FXCollections.observableArrayList();
@@ -67,7 +69,7 @@ public class MainApp extends Application
 	
 	private volatile Thread t1;
 	private volatile Thread t2;
-	
+
 	public AnchorPane getGameBoard()						{ return gameBoard; }
 	public AnchorPane getMenuPane()							{ return menuPane; }
 	public AnchorPane getTypewriterPane()					{ return typewriterPane; }
@@ -92,8 +94,11 @@ public class MainApp extends Application
 		showRootLayout();
 		
 		createMenuPane();
+		
 		createGameBoard();
+		createFadeMenu();
 		rootPane.setCenter(menuPane);
+		rootPane.setBottom(fadeMenu);
 		menuLayoutController.changeActiveStatus();
 		
 		createTypewriter();
@@ -158,6 +163,7 @@ public class MainApp extends Application
 		{}
 	}
 	
+
 	private void createMenuPane()
 	{
 		try
@@ -241,8 +247,24 @@ public class MainApp extends Application
 		} 
 		catch(IOException e) { e.printStackTrace(); }
 		
-		
 	}
+	
+	private void createFadeMenu()
+	{
+		try
+		{
+			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/FadeMenuView.fxml"));
+			fadeMenu = (AnchorPane) loader.load();
+			
+			fadeMenuController = loader.getController();
+			fadeMenuController.setMainApp(this);
+			fadeMenuController.setView(fadeMenu);
+			
+			controllerList.add(fadeMenuController);
+			
+		} catch (IOException e) { e.printStackTrace(); }
+	}
+	
 	
 	private Browser createBrowser()
 	{
@@ -256,6 +278,7 @@ public class MainApp extends Application
 		
 		return temp;
 	}
+	
 	
 	/**
 	 * Generic method for swapping the center node  of
