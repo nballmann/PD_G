@@ -1,11 +1,8 @@
 package org.nic.pd_g;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.beans.value.WritableDoubleValue;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 
@@ -17,11 +14,9 @@ public class FadeMenuController implements ControllerInterface
 	private MainApp mainApp;
 	
 	private Region theView;
-	private Timeline timeline = new Timeline();
-	private WritableDoubleValue yPos;
 	
 	private volatile boolean isActive = false;
-
+	
 	@Override
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
@@ -51,46 +46,14 @@ public class FadeMenuController implements ControllerInterface
 	@FXML
 	private void initialize()
 	{
-		yPos = new WritableDoubleValue() {
-			
-			Double val = .0d;
-			
-			@Override
-			public void setValue(Number value) {
-				val = value.doubleValue();
-			}
-			
-			@Override
-			public Number getValue() {
-				return (Number)val;
-			}
-			
-			@Override
-			public void set(double value) {
-				val = value;
-			}
-			
-			@Override
-			public double get() {
-				return val;
-			}
-		};
-		
-		yPos.set(0);
-		
-		timeline.setCycleCount(1);
-		timeline.setAutoReverse(true);
-		
-		final KeyValue kv = new KeyValue(yPos,  100);
-		final KeyFrame kf = new KeyFrame(Duration.seconds(1.5), kv);
-		
-		timeline.getKeyFrames().add(kf);
+	
 	}
+
 	
 	@FXML
 	private void handleButton1()
 	{
-		timeline.play();
+		mainApp.getFadeTransition().play();
 	}
 	
 	@FXML

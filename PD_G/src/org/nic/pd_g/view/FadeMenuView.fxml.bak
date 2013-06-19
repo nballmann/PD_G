@@ -11,7 +11,7 @@
   <children>
     <HBox id="HBox" alignment="CENTER" layoutX="179.0" layoutY="35.0" spacing="100.0">
       <children>
-        <Button mnemonicParsing="false" onAction="#handleButton1" text="Button1" />
+        <Button mnemonicParsing="false" text="Button1" />
         <Button mnemonicParsing="false" text="Button2" />
         <Button mnemonicParsing="false" text="Button3" />
       </children>

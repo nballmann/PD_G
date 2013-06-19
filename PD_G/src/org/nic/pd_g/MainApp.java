@@ -4,6 +4,8 @@ import java.io.IOException;
 import org.nic.pd_g.model.Browser;
 import org.nic.pd_g.util.ControllerInterface;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,8 +17,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -61,6 +66,7 @@ public class MainApp extends Application
 	private BrowserController browserController;
 	private FadeMenuController fadeMenuController;
 	
+	private FadeTransition ft;
 	
 //	private final ObservableList<Node> centerPaneList = FXCollections.observableArrayList();
 	
@@ -70,6 +76,7 @@ public class MainApp extends Application
 	private volatile Thread t1;
 	private volatile Thread t2;
 
+	public AnchorPane getFadeMenu()							{ return fadeMenu; }
 	public AnchorPane getGameBoard()						{ return gameBoard; }
 	public AnchorPane getMenuPane()							{ return menuPane; }
 	public AnchorPane getTypewriterPane()					{ return typewriterPane; }
@@ -78,6 +85,8 @@ public class MainApp extends Application
 	public GameBoardController getGameBoardController()		{ return gameBoardController; }
 	public TypewriterController getTypewriterController() 	{ return typewriterController; }
 	public ChartPaneController getChartPaneController() 	{ return chartPaneController; }
+	
+	public FadeTransition getFadeTransition()				{ return ft; }
 	
 	// Thread für den TypewriterController
 	public Thread getThread1()								{ return t1; }
@@ -255,10 +264,17 @@ public class MainApp extends Application
 		{
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/FadeMenuView.fxml"));
 			fadeMenu = (AnchorPane) loader.load();
-			
+				
 			fadeMenuController = loader.getController();
 			fadeMenuController.setMainApp(this);
 			fadeMenuController.setView(fadeMenu);
+			
+			ft = new FadeTransition(Duration.millis(6000), fadeMenu);
+			ft.setFromValue(1.f);
+			ft.setToValue(.0f);
+			ft.setCycleCount(Timeline.INDEFINITE);
+			ft.setAutoReverse(true);
+			
 			
 			controllerList.add(fadeMenuController);
 			
