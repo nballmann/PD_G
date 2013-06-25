@@ -54,6 +54,7 @@ public class FadeMenuController implements ControllerInterface
 	private void handleButton1()
 	{
 		mainApp.getFadeTransition().play();
+	
 	}
 	
 	@FXML

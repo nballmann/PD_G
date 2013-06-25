@@ -17,8 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -34,8 +32,8 @@ import javafx.beans.value.ObservableValue;
  * <ul>
  * <li>Actual implementations:
  * <li>GameBoard: 	Drawing board for testing of Canvas capabilities
- * <li>Typewriter: 	simple thread implementation for Text and Label
- * <li>ChartPane: 	complex implementation of the JavaFX Chart-System 
+ * <li>Typewriter: 	Simple thread implementation for Text and Label
+ * <li>ChartPane: 	Complex implementation of the JavaFX Chart-System 
  * <li>				using YQL Queries and DOM W3C for parsing database
  * <li>				entries of real-time stock-data
  * <li>Browser:		HTML viewer based on WebKit-Engine
@@ -180,7 +178,6 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/MenuLayout.fxml"));
 			menuPane = (AnchorPane) loader.load();
 			
-//			centerPaneList.add(menuPane);
 			
 			// Give the controller access to the main app
 		    menuLayoutController = loader.getController();
@@ -200,7 +197,6 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/GameBoardView.fxml"));
 			gameBoard = (AnchorPane) loader.load();
 			
-//			centerPaneList.add(gameBoard);
 			
 			 // Give the controller access to the main app
 		    GameBoardController gameBoardController = loader.getController();
@@ -222,7 +218,6 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/TypewriterView.fxml"));
 			typewriterPane = (AnchorPane) loader.load();
 			
-//			centerPaneList.add(typewriterPane);
 			
 			// Give the controller access to the main app
 		    typewriterController = loader.getController();
@@ -243,7 +238,6 @@ public class MainApp extends Application
 			FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("view/ChartPaneView.fxml"));
 			chartPane = (AnchorPane) loader.load();
 			
-//			centerPaneList.add(chartPane);
 			
 			// Give the controller access to the main app
 		    chartPaneController = loader.getController();
@@ -275,7 +269,6 @@ public class MainApp extends Application
 			ft.setCycleCount(Timeline.INDEFINITE);
 			ft.setAutoReverse(true);
 			
-			
 			controllerList.add(fadeMenuController);
 			
 		} catch (IOException e) { e.printStackTrace(); }
@@ -286,7 +279,6 @@ public class MainApp extends Application
 	{
 		Browser temp = new Browser();
 		
-//		centerPaneList.add(temp);
 		
 		browserController = new BrowserController();
 		browserController.setView(temp);
